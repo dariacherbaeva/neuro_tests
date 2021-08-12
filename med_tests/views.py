@@ -1,30 +1,48 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
-from django.views.generic import TemplateView
+from datetime import datetime
 
-from med_tests.models import QuestionnaireResponse, Questionnaire, MultipleChoiceQuestion
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+from django.views import View
+from django.views.generic import TemplateView, FormView
+
+from med_tests.forms import QuestionForm
+from med_tests.models import Questionnaire, MultipleChoiceQuestion, QuestionResponse, ResponseOption, \
+    QuestionnaireResponse
+from med_tests.utils import pass_test, get_sensitization_test_results, get_depression_test_results
 
 DEPRESSION_ID = 2
 SENSITIZATION_ID = 1
 
 
-class PassDepressionTest(LoginRequiredMixin, TemplateView):
+class ShowTest(LoginRequiredMixin, TemplateView):
+    template_name = 'test_page.html'
 
-    template_name = 'depression_test.html'
+    @property
+    def test_id(self):
+        return self.kwargs['test_id']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['questionnaire'] = Questionnaire.objects.get(id=DEPRESSION_ID)
-        context['questions'] = MultipleChoiceQuestion.objects.filter(questionnaire_id=DEPRESSION_ID)
-        return context
-
-class PassSensitizationTest(LoginRequiredMixin, TemplateView):
-
-    template_name = 'sensitization_test.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['questionnaire'] = Questionnaire.objects.get(id=SENSITIZATION_ID)
-        context['questions'] = MultipleChoiceQuestion.objects.filter(questionnaire_id=SENSITIZATION_ID)
+        context['questionnaire'] = Questionnaire.objects.get(id=self.test_id)
+        context['questions'] = MultipleChoiceQuestion.objects.filter(questionnaire_id=self.test_id)
         return context
 
 
+class PassTest(LoginRequiredMixin, TemplateView):
+    template_name = 'success.html'
+
+    @property
+    def test_id(self):
+        return self.kwargs['test_id']
+
+    def post(self, request, **kwargs):
+        context = self.get_context_data(**kwargs)
+        questionnaire = Questionnaire.objects.get(id=self.test_id)
+        questionnaire_response = pass_test(request, self.test_id, request.user.id)
+        context['questionnaire_response'] = questionnaire_response
+        return self.render_to_response(context)
+
+
+class SuccessPage(TemplateView):
+    template_name = 'success.html'

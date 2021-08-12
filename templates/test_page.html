@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ questionnaire.name }}</title>
+</head>
+<body>
+<b>{{ questionnaire.name }}</b>
+<p>{{ questionnaire.description }}</p>
+
+<form id="{{ questionnaire.id }}" method="POST" action="{% url 'pass_test' test_id=questionnaire.id %}">
+    {% csrf_token %}
+    {% for question in questions %}
+        <p>Вопрос №{{ question.number }}.</p>
+        {% if question.text %}
+            <p>{{ question.text }}</p>
+        {% endif %}
+        <fieldset id="{{ question.id }}">
+            {% for response_option in question.get_response_options %}
+                <input type="radio" id="{{ response_option.id }}" value="{{ response_option.text }}"
+                       name="{{ question.number }}[]">
+                <label for="{{ response_option.id }}">{{ response_option.text }}</label><br>
+            {% endfor %}
+        </fieldset>
+    {% endfor %}
+    <p><input type="submit" id="submit"></p>
+</form>
+</body>
+</html>

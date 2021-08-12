@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from med_tests.models import Questionnaire, MultipleChoiceQuestion, ResponseOption, QuestionResponse, \
-    QuestionnaireResponse
+    QuestionnaireResponse, QuestionnaireResponseMeaning, PatientProfile
 
 
 class QuestionnaireAdmin(admin.ModelAdmin):
@@ -36,8 +36,21 @@ class QuestionnaireResponseAdmin(admin.ModelAdmin):
     search_fields = ('user', 'questionnaire')
 
 
+class QuestionnaireResponseMeaningAdmin(admin.ModelAdmin):
+    list_filter = ('questionnaire_response',)
+    list_display = ('questionnaire_response', 'description')
+
+
+class PatientProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'gender', 'age')
+    list_filter = ('doctor', 'gender')
+    ordering = ('age', 'user')
+
+
 admin.site.register(Questionnaire, QuestionnaireAdmin)
 admin.site.register(MultipleChoiceQuestion, MultipleChoiceQuestionAdmin)
 admin.site.register(ResponseOption, ResponseOptionAdmin)
 admin.site.register(QuestionResponse, QuestionResponseAdmin)
 admin.site.register(QuestionnaireResponse, QuestionnaireResponseAdmin)
+admin.site.register(QuestionnaireResponseMeaning, QuestionnaireResponseMeaningAdmin)
+admin.site.register(PatientProfile, PatientProfileAdmin)
