@@ -6,9 +6,8 @@ from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import TemplateView, FormView
 
-from med_tests.forms import QuestionForm
 from med_tests.models import Questionnaire, MultipleChoiceQuestion, QuestionResponse, ResponseOption, \
-    QuestionnaireResponse
+    QuestionnaireResponse, PatientProfile
 from med_tests.utils import pass_test, get_sensitization_test_results, get_depression_test_results
 
 DEPRESSION_ID = 2
@@ -44,5 +43,13 @@ class PassTest(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
-class SuccessPage(TemplateView):
-    template_name = 'success.html'
+class ProfilePage(LoginRequiredMixin, TemplateView):
+    template_name = "profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        patient = PatientProfile.objects.filter(user=self.request.user)
+        if patient:
+            context['patient'] = patient.first()
+        return context

@@ -72,6 +72,12 @@ class PatientProfile(models.Model):
     age = models.IntegerField()
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor')
 
+    def __str__(self):
+        return 'Профиль %s %s' % (self.user.last_name, self.user.first_name)
+
+    def get_patient_tests(self):
+        return QuestionnaireResponse.objects.filter(user=self.user).order_by('timestamp')
+
 
 class QuestionnaireResponseMeaning(models.Model):
     questionnaire_response = models.ForeignKey(QuestionnaireResponse, on_delete=models.CASCADE)

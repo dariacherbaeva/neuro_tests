@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from med_tests.views import ShowTest, SuccessPage, PassTest
+from med_tests.views import ShowTest, PassTest, ProfilePage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', include(('med_tests.urls', 'med_tests'), namespace='med_tests')),
     path('test/<int:test_id>/', ShowTest.as_view(), name="show_test"),
     path('test/<int:test_id>/pass/', PassTest.as_view(), name="pass_test"),
-    path('test/success/', SuccessPage.as_view(), name="success")
+    path('profile/', ProfilePage.as_view(), name="profile")
 ]
