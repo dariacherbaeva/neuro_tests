@@ -43,7 +43,7 @@ class ResponseOption(models.Model):
 
 
 class QuestionResponse(models.Model):
-    response_option = models.ForeignKey(ResponseOption, on_delete=models.CASCADE, null=True, blank=True)
+    response_option = models.ForeignKey(ResponseOption, on_delete=models.CASCADE, null=False, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -51,9 +51,9 @@ class QuestionResponse(models.Model):
 
 
 class QuestionnaireResponse(models.Model):
-    questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question_responses = models.ManyToManyField(QuestionResponse)
+    questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    question_responses = models.ManyToManyField(QuestionResponse, null=False)
     points = models.IntegerField(default=0)
     timestamp = models.DateField(default=now, editable=False)
 
@@ -68,6 +68,7 @@ class PatientProfile(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    patronymic = models.CharField(max_length=50, null=True, blank=True)
     gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
     age = models.IntegerField()
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor')

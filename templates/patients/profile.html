@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.first_name }} {{ user.last_name }}{% endblock %}
+{% block content %}
+    <p><b>Логин: {{ user.username }}</b></p>
+    <p><b>Имя: {{ user.first_name }} {{ user.last_name }}</b></p>
+    {% if patient.gender == 'F' %}
+        <p><b>Пол: Женский</b></p>
+    {% else %}
+        <p><b>Пол: Мужской</b></p>
+    {% endif %}
+    <p><b>Возраст: {{ patient.age }}</b></p>
+    <p><b>Врач: {{ patient.doctor.first_name }} {{ patient.doctor.last_name }} ({{ patient.doctor.email }})</b></p>
+
+    {% for result in patient.get_patient_tests %}
+        {% if result.question_responses %}
+            <p><b>{{ result.questionnaire.name }}</b></p>
+            <p><b>{{ result.points }}</b></p>
+            {% for q in result.question_responses.all %}
+                {% if q.response_option.question.text %}
+                    <p><b>{{ q.response_option.question.text }}</b></p>
+                {% else %}
+                    <p><b>{{ q.response_option.question.number }}</b></p>
+                {% endif %}
+                <p><b>{{ q.response_option.text }}</b></p>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

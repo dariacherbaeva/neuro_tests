@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+    <div class="page-title" align="center">
+        <h3>Вход</h3>
+    </div>
+    <div>
+        {% if user.is_authenticated == False %}
+            {% if form.errors %}
+                <p>Логин и/или пароль введены неправильно, попробуйте ещё раз.</p>
+            {% endif %}
+
+            {% if next %}
+                {% if user.is_authenticated %}
+                    <p>У вашего аккаунта нет доступа к данной странице.</p>
+                {% else %}
+                    <p>Пожалуйста, войдите, чтобы увидеть эту страницу.</p>
+                {% endif %}
+            {% endif %}
+            <form class="menu" align="center" method="post" action="{% url 'login' %}">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ form }}
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Войти"/>
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                </div>
+            </form>
+            <div align="center">
+                <a href="{% url 'password_reset' %}" class="main-page-text">Забыли пароль?</a></div>
+            </div>
+
+        {% else %}
+            <div class="main-page-text">
+                <p>Вы уже вошли.</p>
+                <p><a href="{% url 'my_profile' %}" class="text-black">Вернуться на главную</a></p>
+            </div>
+        {% endif %}
+
+{% endblock %}
