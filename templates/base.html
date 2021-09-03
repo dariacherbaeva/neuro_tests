@@ -18,9 +18,9 @@
             <li><a href="{% url 'tests' %}" class="brand">Тесты</a></li>
             <li><a href="{% url 'logout' %}" class="brand">Выйти</a></li>
         {% else %}
-            <li>Добро пожаловать, {{ user.first_name }} {{ user.last_name }}!</li>
+            <li><a href="{% url 'my_profile' %}" class="brand">Профиль</a></li>
             <li><a href="{% url 'patients' %}" class="brand"> Пациенты </a></li>
-            <li><a href="{% url 'logout' %}"class="brand"> Выйти </a></li>
+            <li><a href="{% url 'logout' %}" class="brand"> Выйти </a></li>
         {% endif %}
     {% else %}
         <li><a href="{% url 'login' %}">Войти</a></li>

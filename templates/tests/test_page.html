@@ -4,7 +4,7 @@
 <b>{{ questionnaire.name }}</b>
 <p>{{ questionnaire.description }}</p>
 
-<form id="{{ questionnaire.id }}" method="POST" action="{% url 'pass_test' test_id=questionnaire.id %}">
+<form id="{{ questionnaire.id }}" method="POST" action="{% url 'pass_test' test_id=questionnaire.id %}" class="form-horizontal">
     {% csrf_token %}
     {% for question in questions %}
         <p>Вопрос №{{ question.number }}.</p>
