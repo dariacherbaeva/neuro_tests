@@ -1,6 +1,8 @@
-from django.template.defaultfilters import register
+from django import template
 
 from med_tests.models import PatientProfile
+
+register = template.Library()
 
 
 @register.filter
