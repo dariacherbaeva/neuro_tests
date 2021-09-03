@@ -2,9 +2,11 @@
 {% block title %} Список доступных тестов {% endblock %}
 {% block content %}
     {% for test in tests %}
-        <p><b>{{ test.name }}</b>: {{ test.description }}</p>
-        {% if patient %}
-            <p><a href="{% url 'show_test' test_id=test.id %}">Пройти тестирование</a> </p>
-        {% endif %}
+        <div class="container">
+            <p><b>{{ test.name }}</b>: {{ test.description }}</p>
+            {% if patient %}
+                <p><a href="{% url 'show_test' test_id=test.id %}">Пройти тестирование</a></p>
+            {% endif %}
+        </div>
     {% endfor %}
 {% endblock %}

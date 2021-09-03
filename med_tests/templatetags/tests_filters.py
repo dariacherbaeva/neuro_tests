@@ -6,5 +6,5 @@ register = template.Library()
 
 
 @register.filter
-def is_patient(request):
-    return PatientProfile.objects.filter(user=request.user).exists()
+def is_patient(user):
+    return PatientProfile.objects.filter(user=user).exists()

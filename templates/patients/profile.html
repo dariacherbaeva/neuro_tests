@@ -1,28 +1,48 @@
 {% extends 'base.html' %}
+{% load tests_filters %}
 {% block title %}{{ user.first_name }} {{ user.last_name }}{% endblock %}
 {% block content %}
-    <p><b>Логин: {{ user.username }}</b></p>
-    <p><b>Имя: {{ user.first_name }} {{ user.last_name }}</b></p>
-    {% if patient.gender == 'F' %}
-        <p><b>Пол: Женский</b></p>
-    {% else %}
-        <p><b>Пол: Мужской</b></p>
-    {% endif %}
-    <p><b>Возраст: {{ patient.age }}</b></p>
-    <p><b>Врач: {{ patient.doctor.first_name }} {{ patient.doctor.last_name }} ({{ patient.doctor.email }})</b></p>
-
-    {% for result in patient.get_patient_tests %}
-        {% if result.question_responses %}
-            <p><b>{{ result.questionnaire.name }}</b></p>
-            <p><b>{{ result.points }}</b></p>
-            {% for q in result.question_responses.all %}
-                {% if q.response_option.question.text %}
-                    <p><b>{{ q.response_option.question.text }}</b></p>
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row-fluid"><b>Логин:</b> {{ user.username }}</div>
+            <div class="row-fluid"><b>Имя:</b> {{ user.first_name }} {{ user.last_name }}</div>
+            {% if user|is_patient %}
+                {% if patient.gender == 'F' %}
+                    <div class="row-fluid"><b>Пол:</b> Женский</div>
                 {% else %}
-                    <p><b>{{ q.response_option.question.number }}</b></p>
+                    <div class="row-fluid"><b>Пол:</b> Мужской</div>
                 {% endif %}
-                <p><b>{{ q.response_option.text }}</b></p>
-            {% endfor %}
-        {% endif %}
-    {% endfor %}
+                <div class="row-fluid"><b>Возраст:</b> {{ patient.age }}</div>
+                <div class="row-fluid"><b>Врач:</b> {{ patient.doctor.first_name }} {{ patient.doctor.last_name }}
+                    ({{ patient.doctor.email }})
+                </div>
+                </div>
+
+                <p></p>
+
+                <div class="container" align="center"><b>Результаты тестирований:</b></div>
+
+                <p></p>
+
+                <div class="container-fluid" align="center">
+                    {% for result in patient.get_patient_tests %}
+                        {% if result.question_responses %}
+                            <div class="row-fluid"><b>Тестирование: </b>{{ result.questionnaire.name }}</div>
+                            <div class="row-fluid"><b>Суммарный балл: </b>{{ result.points }}</div>
+                            <div class="row-fluid"><b>Дата: </b>{{ result.timestamp }}</div>
+                            <p></p>
+                            {% for q in result.question_responses.all %}
+                                {% if q.response_option.question.text %}
+                                    <div class="row-fluid"><b> Вопрос {{ q.response_option.question.text }}</b></div>
+                                {% else %}
+                                    <div class="row-fluid"><b>Вопрос №{{ q.response_option.question.number }}</b></div>
+                                {% endif %}
+                                <div class="row-fluid"><b>Ответ:</b> {{ q.response_option.text }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        <p></p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+    </div>
 {% endblock %}

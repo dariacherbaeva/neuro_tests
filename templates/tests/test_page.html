@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ questionnaire.name }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}{{ questionnaire.name }}{% endblock %}
+{% block content %}
 <b>{{ questionnaire.name }}</b>
 <p>{{ questionnaire.description }}</p>
 
@@ -23,7 +19,6 @@
             {% endfor %}
         </fieldset>
     {% endfor %}
-    <p><input type="submit" id="submit"></p>
+    <p><input type="submit" id="submit" class="btn-mini"></p>
 </form>
-</body>
-</html>
+{% endblock %}
