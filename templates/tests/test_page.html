@@ -3,25 +3,26 @@
 {% block content %}
     <b>{{ questionnaire.name }}</b>
     <p>{{ questionnaire.description }}</p>
-
-    <form id="{{ questionnaire.id }}" method="POST" action="{% url 'pass_test' test_id=questionnaire.id %}"
-          class="form-horizontal">
-        {% csrf_token %}
-        {% for question in questions %}
-            <p><b>Вопрос №{{ question.number }}.</b></p>
-            {% if question.text %}
-                <p>{{ question.text }}</p>
-            {% endif %}
-            <fieldset id="{{ question.id }}">
-                {% for response_option in question.get_response_options %}
-                    <div class="mb-3">
-                        <input type="radio" id="{{ response_option.id }}" value="{{ response_option.text }}"
-                               name="{{ question.number }}[]" class="form-control">
-                        <label for="{{ response_option.id }}" class="form-label">{{ response_option.text }}</label><br>
-                    </div>
-                {% endfor %}
-            </fieldset>
-        {% endfor %}
-        <p><input type="submit" id="submit" class="btn-mini"></p>
-    </form>
+    <div class="container-fluid">
+        <form id="{{ questionnaire.id }}" method="POST" action="{% url 'pass_test' test_id=questionnaire.id %}"
+              class="form-horizontal">
+            {% csrf_token %}
+            {% for question in questions %}
+                <p><b>Вопрос №{{ question.number }}.</b></p>
+                {% if question.text %}
+                    <p>{{ question.text }}</p>
+                {% endif %}
+                <fieldset id="{{ question.id }}">
+                    {% for response_option in question.get_response_options %}
+                        <div class="mb-3">
+                            <input type="radio" id="{{ response_option.id }}" value="{{ response_option.text }}"
+                                   name="{{ question.number }}[]" class="form-control"><label for="{{ response_option.id }}"
+                                   class="form-label">{{ response_option.text }}</label>
+                        </div>
+                    {% endfor %}
+                </fieldset>
+            {% endfor %}
+            <p><input type="submit" id="submit" class="btn-mini"></p>
+        </form>
+    </div>
 {% endblock %}
