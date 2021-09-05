@@ -2,14 +2,16 @@
 {% block title %}Список пациентов{% endblock %}
 
 {% block content %}
-    <p><b>Ваши пациенты:</b></p>
-    {% for patient in patients %}
-        _________
-        <a href="{% url 'profile' user_id=patient.user.id%}">
-        {% if patient.patronymic %}
-            <p><b>{{ patient.user.last_name }} {{ patient.user.first_name }} {{ patient.patronymic }}</b>,
-                {% else %}
-            <p><b>{{ patient.user.last_name }} {{ patient.user.first_name }}</b>,
-        {% endif %}<b>{{ patient.age }}</b></p></a>
-    {% endfor %}
+    <div class="container-fluid"><b>Ваши пациенты:</b></div>
+    <div class="container-fluid">
+        {% for patient in patients %}
+            _________
+            <a href="{% url 'profile' user_id=patient.user.id %}">
+                {% if patient.patronymic %}
+                    <div class="row-fluid"><b>{{ patient.user.last_name }} {{ patient.user.first_name }} {{ patient.patronymic }}</b>,
+                        {% else %}
+                    <div class="row-fluid"><b>{{ patient.user.last_name }} {{ patient.user.first_name }}</b>,
+                {% endif %}<b>{{ patient.age }}</b></div></a>
+        {% endfor %}
+    </div>
 {% endblock %}
