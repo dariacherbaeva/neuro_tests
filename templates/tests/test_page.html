@@ -8,7 +8,7 @@
     <p></p>
     <div class="container">
         <form id="{{ questionnaire.id }}" method="POST" action="{% url 'pass_test' test_id=questionnaire.id %}"
-              class="form-horizontal">
+              class="form-horizontal" align="center">
             {% csrf_token %}
             {% for question in questions %}
                 <p><b>Вопрос №{{ question.number }}.</b></p>
