@@ -18,10 +18,14 @@
                 <fieldset id="{{ question.id }}">
                     {% for response_option in question.get_response_options %}
                         <div class="form-check">
-                            <input type="radio" id="{{ response_option.id }}" value="{{ response_option.text }}"
-                                   name="{{ question.number }}[]" class="form-check-input"><label
-                                for="{{ response_option.id }}"
-                                class="form-check-label">{{ response_option.text }}</label>
+                            <label
+                                    for="{{ response_option.id }}"
+                                    class="form-check-label">
+                                <input type="radio" id="{{ response_option.id }}"
+                                       value="{{ response_option.text }}"
+                                       name="{{ question.number }}[]"
+                                       class="form-check-input">{{ response_option.text }}
+                            </label>
                         </div>
                     {% endfor %}
                 </fieldset>

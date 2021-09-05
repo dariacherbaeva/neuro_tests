@@ -6,6 +6,7 @@
     <div class="container-fluid">
         {% for patient in patients %}
             _________
+            <p></p>
             <a href="{% url 'profile' user_id=patient.user.id %}">
                 {% if patient.patronymic %}
                     <div class="row-fluid"><b>{{ patient.user.last_name }} {{ patient.user.first_name }} {{ patient.patronymic }}</b>,
