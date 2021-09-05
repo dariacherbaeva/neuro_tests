@@ -5,6 +5,7 @@
         <div class="row-fluid" align="center"><b>{{ questionnaire.name }}</b></div>
         <div class="row-fluid" align="center">{{ questionnaire.description }}</div>
     </div>
+    <p></p>
     <div class="container">
         <form id="{{ questionnaire.id }}" method="POST" action="{% url 'pass_test' test_id=questionnaire.id %}"
               class="form-horizontal">
