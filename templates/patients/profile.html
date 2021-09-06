@@ -35,7 +35,7 @@
                             {% if result.question_responses %}
                                 <div class="row-fluid"><b>Тестирование: </b>{{ result.questionnaire.name }}</div>
                                 <div class="row-fluid"><b>Суммарный балл: </b>{{ result.points }}</div>
-                                <div class="row-fluid"><b>Дата: </b>{{ result.timestamp }}</div>
+                                <div class="row-fluid"><b>Дата: </b>{{ result.timestamp|date:'Y-m-d H:i' }}</div>
                                 <p></p>
                                 {% for q in result.question_responses.all %}
                                     {% if q.response_option.question.text %}

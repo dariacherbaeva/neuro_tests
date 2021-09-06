@@ -55,7 +55,7 @@ class QuestionnaireResponse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     question_responses = models.ManyToManyField(QuestionResponse, null=False)
     points = models.IntegerField(default=0)
-    timestamp = models.DateField(default=now, editable=False)
+    timestamp = models.DateTimeField(default=now, editable=False)
 
     def __str__(self):
         return '%s %s' % (self.questionnaire.name, self.user.username)
