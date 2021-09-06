@@ -5,7 +5,7 @@
     <div class="page-title" align="center">
         <h3>Вход</h3>
     </div>
-    <div>
+    <div class="container" align="center">
         {% if user.is_authenticated == False %}
             {% if form.errors %}
                 <p>Логин и/или пароль введены неправильно, попробуйте ещё раз.</p>
@@ -13,9 +13,9 @@
 
             {% if next %}
                 {% if user.is_authenticated %}
-                    <p>У вашего аккаунта нет доступа к данной странице.</p>
+                    <div class="row-fluid" align="center">У вашего аккаунта нет доступа к данной странице.</div>
                 {% else %}
-                    <p>Пожалуйста, войдите, чтобы увидеть эту страницу.</p>
+                    <div class="row-fluid" align="center">Пожалуйста, войдите, чтобы увидеть эту страницу.</div>
                 {% endif %}
             {% endif %}
             <form class="menu" align="center" method="post" action="{% url 'login' %}">
