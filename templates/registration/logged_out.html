@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Вы вышли из аккаунта.{% endblock %}
 {% block content %}
-    <div class="main-page-text">Вы вышли из своего аккаунта.
-        <p><a href="{% url 'login' %}">Нажмите сюда, чтобы снова войти.</a>
-        </p>
+    <div class="container-fluid">Вы вышли из своего аккаунта.
+        <div class="row-fluid"><a href="{% url 'login' %}">Нажмите сюда, чтобы снова войти.</a>
+        </div>
     </div>
 {% endblock %}

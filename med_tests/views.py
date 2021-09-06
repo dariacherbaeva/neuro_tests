@@ -78,3 +78,12 @@ class PatientList(LoginRequiredMixin, TemplateView):
             patients = PatientProfile.objects.filter(doctor=self.request.user)
             context['patients'] = patients
         return context
+
+
+class HomePageView(View):
+
+    def get(self, request):
+        if self.request.user:
+            return redirect(reverse_lazy('my_profile'))
+        else:
+            return redirect(reverse_lazy('login'))
