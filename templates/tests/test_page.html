@@ -24,7 +24,8 @@
                                 <input type="radio" id="{{ response_option.id }}"
                                        value="{{ response_option.text }}"
                                        name="{{ question.number }}[]"
-                                       class="form-check-input"> {{ response_option.text }}
+                                       class="form-check-input"
+                                       required="required"> {{ response_option.text }}
                             </label>
                         </div>
                     {% endfor %}

@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from med_tests.views import ShowTest, PassTest, ProfilePage, TestList, PatientList, HomePageView
+from med_tests.views import ShowTest, PassTest, ProfilePage, TestList, PatientList, HomePageView, \
+    CreateQuestionnairePrescription
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +31,6 @@ urlpatterns = [
     path('tests/', TestList.as_view(), name="tests"),
     path('patients/', PatientList.as_view(), name="patients"),
     path('', HomePageView.as_view(), name='home'),
+    path('prescribe_test/', CreateQuestionnairePrescription.as_view(), name='prescribe_test')
 
 ]

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block title %} Список доступных тестов {% endblock %}
 {% block content %}
-    {% for test in tests %}
+    {% for test in patient.get_patient_prescriptions %}
         <div class="container">
-            <p><b>{{ test.name }}</b>: {{ test.description }}</p>
+            <p><b>{{ test.questionnaire.name }}</b>: {{ test.questionnaire.description }}</p>
             {% if patient %}
-                <p><a href="{% url 'show_test' test_id=test.id %}">Пройти тестирование</a></p>
+                <p><a href="{% url 'show_test' test_id=test.questionnaire.id %}">Пройти тестирование</a></p>
             {% endif %}
         </div>
     {% endfor %}

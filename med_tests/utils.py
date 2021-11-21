@@ -1,7 +1,5 @@
 from datetime import datetime
 
-from django.contrib.auth.models import User
-
 from med_tests.models import QuestionnaireResponse, Questionnaire, MultipleChoiceQuestion, QuestionResponse, \
     ResponseOption, PatientProfile
 
@@ -17,12 +15,65 @@ def count_points(result):
     result.save()
 
 
+# TODO: finish
 def get_depression_test_results(result):
     count_points(result)
-    # patient = PatientProfile.objects.get(user=result.user)
-    # if 7 <= patient.age <= 12:
-    #     if patient.gender == 'F':
-    #         return
+    patient = PatientProfile.objects.get(user=result.user)
+    if 7 <= patient.age <= 12:
+        if result.points == 0:
+            if patient.gender == 'F':
+                result.points = 37
+            elif patient.gender == 'M':
+                result.points = 35
+        elif result.points == 1:
+            if patient.gender == 'F':
+                result.points = 39
+            elif patient.gender == 'M':
+                result.points = 37
+        elif result.points == 2:
+            if patient.gender == 'F':
+                result.points = 40
+            elif patient.gender == 'M':
+                result.points = 38
+        elif result.points == 3:
+            if patient.gender == 'F':
+                result.points = 42
+            elif patient.gender == 'M':
+                result.points = 39
+        elif result.points == 4:
+            if patient.gender == 'F':
+                result.points = 43
+            elif patient.gender == 'M':
+                result.points = 41
+        elif result.points == 5:
+            if patient.gender == 'F':
+                result.points = 44
+            elif patient.gender == 'M':
+                result.points = 42
+        elif result.points == 6:
+            if patient.gender == 'F':
+                result.points = 46
+            elif patient.gender == 'M':
+                result.points = 44
+        elif result.points == 7:
+            if patient.gender == 'F':
+                result.points = 47
+            elif patient.gender == 'M':
+                result.points = 45
+        elif result.points == 8:
+            if patient.gender == 'F':
+                result.points = 49
+            elif patient.gender == 'M':
+                result.points = 46
+        elif result.points == 9:
+            if patient.gender == 'F':
+                result.points = 48
+            elif patient.gender == 'M':
+                result.points = 50
+        elif result.points == 10:
+            result.points = 51
+        elif result.points == 11:
+            pass
 
 
 def get_sensitization_test_results(result):

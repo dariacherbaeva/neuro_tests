@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+
+{% block content %}
+    <div class="page-title" align="center">
+        <h3>Назначить тестирование</h3>
+    </div>
+    <form class="menu" align="center" method="post" action="{% url 'prescribe_test' %}" enctype="multipart/form-data">
+        <div class="form-group">
+            {% csrf_token %}
+            {{ form|as_bootstrap }}
+        </div>
+        <div class="form-group">
+            <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Назначить тестирование"
+                   align="center"/>
+        </div>
+    </form>
+{% endblock %}

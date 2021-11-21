@@ -3,6 +3,13 @@ from django.db import models
 from django.utils.timezone import now
 
 
+def get_name(self):
+    return '{} {}'.format(self.first_name, self.last_name)
+
+
+User.add_to_class("__str__", get_name)
+
+
 class Questionnaire(models.Model):
     name = models.CharField(max_length=150)
     description = models.TextField()
@@ -79,7 +86,20 @@ class PatientProfile(models.Model):
     def get_patient_tests(self):
         return QuestionnaireResponse.objects.filter(user=self.user).order_by('timestamp')
 
+    def get_patient_prescriptions(self):
+        return QuestionnairePrescription.objects.filter(patient=self.user, result=None)
+
 
 class QuestionnaireResponseMeaning(models.Model):
     questionnaire_response = models.ForeignKey(QuestionnaireResponse, on_delete=models.CASCADE)
     description = models.TextField()
+
+
+class QuestionnairePrescription(models.Model):
+    questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
+    patient = models.ForeignKey(User, on_delete=models.CASCADE)
+    result = models.ForeignKey(QuestionnaireResponse, on_delete=models.CASCADE, null=True, blank=True)
+
+    @property
+    def is_finished(self):
+        return self.result is not None

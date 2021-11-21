@@ -7,8 +7,9 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, FormView
 
+from med_tests.forms import QuestionnairePrescriptionForm
 from med_tests.models import Questionnaire, MultipleChoiceQuestion, QuestionResponse, ResponseOption, \
-    QuestionnaireResponse, PatientProfile
+    QuestionnaireResponse, PatientProfile, QuestionnairePrescription
 from med_tests.utils import pass_test, get_sensitization_test_results, get_depression_test_results
 
 DEPRESSION_ID = 2
@@ -36,7 +37,14 @@ class PassTest(LoginRequiredMixin, View):
         return self.kwargs['test_id']
 
     def post(self, request, **kwargs):
-        pass_test(request, self.test_id, request.user.id)
+        prescription = QuestionnairePrescription.objects.get(patient=request.user,
+                                                             questionnaire_id=self.test_id,
+                                                             is_finished=False)
+        if prescription:
+            prescription.result = pass_test(request, self.test_id, request.user.id)
+            prescription.save()
+        else:
+            redirect(reverse_lazy('tests'))
         return redirect(reverse_lazy('my_profile'))
 
 
@@ -64,7 +72,7 @@ class TestList(LoginRequiredMixin, TemplateView):
         patient = PatientProfile.objects.filter(user=self.request.user)
         if patient:
             context['patient'] = patient
-        context['tests'] = Questionnaire.objects.all()
+        # context['tests'] = patient.get_patient_prescriptions
         return context
 
 
@@ -87,3 +95,16 @@ class HomePageView(View):
             return redirect(reverse_lazy('my_profile'))
         else:
             return redirect(reverse_lazy('login'))
+
+
+class CreateQuestionnairePrescription(LoginRequiredMixin, FormView):
+    template_name = 'doctor/create_prescription.html'
+    form_class = QuestionnairePrescriptionForm
+
+    def get_success_url(self):
+        return reverse_lazy('prescribe_test')
+
+    def form_valid(self, form):
+        form.save()
+        return super(CreateQuestionnairePrescription, self).form_valid(form)
+
