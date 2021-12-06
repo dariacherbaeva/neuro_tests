@@ -87,7 +87,9 @@ class PatientProfile(models.Model):
         return QuestionnaireResponse.objects.filter(user=self.user).order_by('timestamp')
 
     def get_patient_prescriptions(self):
-        return QuestionnairePrescription.objects.filter(patient=self.user, result=None)
+        prescriptions = QuestionnairePrescription.objects.filter(patient=self.user, result=None)
+        tests = [p.questionnaire for p in prescriptions]
+        return tests
 
 
 class QuestionnaireResponseMeaning(models.Model):

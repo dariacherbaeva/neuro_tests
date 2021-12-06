@@ -5,6 +5,7 @@
     <div class="page-title" align="center">
         <h3>Назначить тестирование</h3>
     </div>
+    <div align="center">
     <form class="menu" align="center" method="post" action="{% url 'prescribe_test' %}" enctype="multipart/form-data">
         <div class="form-group">
             {% csrf_token %}
@@ -15,4 +16,5 @@
                    align="center"/>
         </div>
     </form>
+    </div>
 {% endblock %}

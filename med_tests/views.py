@@ -69,10 +69,10 @@ class TestList(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        patient = PatientProfile.objects.filter(user=self.request.user)
+        patient = PatientProfile.objects.get(user=self.request.user)
         if patient:
             context['patient'] = patient
-        # context['tests'] = patient.get_patient_prescriptions
+        context['tests'] = patient.get_patient_prescriptions()
         return context
 
 
