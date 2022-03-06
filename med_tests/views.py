@@ -39,7 +39,7 @@ class PassTest(LoginRequiredMixin, View):
     def post(self, request, **kwargs):
         prescription = QuestionnairePrescription.objects.get(patient=request.user,
                                                              questionnaire_id=self.test_id,
-                                                             is_finished=False)
+                                                             result=None)
         if prescription:
             prescription.result = pass_test(request, self.test_id, request.user.id)
             prescription.save()
