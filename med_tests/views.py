@@ -8,9 +8,8 @@ from django.views import View
 from django.views.generic import TemplateView, FormView
 
 from med_tests.forms import QuestionnairePrescriptionForm
-from med_tests.models import Questionnaire, MultipleChoiceQuestion, QuestionResponse, ResponseOption, \
-    QuestionnaireResponse, PatientProfile, QuestionnairePrescription
-from med_tests.utils import pass_test, get_sensitization_test_results, get_depression_test_results
+from med_tests.models import Questionnaire, MultipleChoiceQuestion, PatientProfile, QuestionnairePrescription
+from med_tests.utils import pass_test
 
 DEPRESSION_ID = 2
 SENSITIZATION_ID = 1
@@ -76,14 +75,26 @@ class TestList(LoginRequiredMixin, TemplateView):
         return context
 
 
-class PatientList(LoginRequiredMixin, TemplateView):
-    template_name = "patients/patient_list.html"
+class DoctorPatientList(LoginRequiredMixin, TemplateView):
+    template_name = "patients/my_patients_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         patient = PatientProfile.objects.filter(user=self.request.user)
         if not patient:
             patients = PatientProfile.objects.filter(doctor=self.request.user)
+            context['patients'] = patients
+        return context
+
+
+class AllPatientList(LoginRequiredMixin, TemplateView):
+    template_name = "patients/all_patients_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        patient = PatientProfile.objects.filter(user=self.request.user)
+        if not patient:
+            patients = PatientProfile.objects.all()
             context['patients'] = patients
         return context
 

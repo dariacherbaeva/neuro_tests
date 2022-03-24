@@ -19,7 +19,8 @@
             <li><a href="{% url 'logout' %}" class="brand">Выйти</a></li>
         {% else %}
             <li><a href="{% url 'my_profile' %}" class="brand">Профиль</a></li>
-            <li><a href="{% url 'patients' %}" class="brand"> Пациенты </a></li>
+            <li><a href="{% url 'all_patients' %}" class="brand">Все пациенты </a></li>
+            <li><a href="{% url 'patients' %}" class="brand">Мои пациенты </a></li>
             <li><a href="{% url 'prescribe_test' %}" class="brand">Назначить тестирование</a> </li>
             <li><a href="{% url 'logout' %}" class="brand"> Выйти </a></li>
         {% endif %}

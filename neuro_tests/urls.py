@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from med_tests.views import ShowTest, PassTest, ProfilePage, TestList, PatientList, HomePageView, \
-    CreateQuestionnairePrescription
+from med_tests.views import ShowTest, PassTest, ProfilePage, TestList, DoctorPatientList, HomePageView, \
+    CreateQuestionnairePrescription, AllPatientList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +29,8 @@ urlpatterns = [
     path('profile/<int:user_id>/', ProfilePage.as_view(), name="profile"),
     path('profile/', ProfilePage.as_view(), name="my_profile"),
     path('tests/', TestList.as_view(), name="tests"),
-    path('patients/', PatientList.as_view(), name="patients"),
+    path('patients/', DoctorPatientList.as_view(), name="patients"),
+    path('all_patients/', AllPatientList.as_view(), name="all_patients"),
     path('', HomePageView.as_view(), name='home'),
     path('prescribe_test/', CreateQuestionnairePrescription.as_view(), name='prescribe_test')
 

@@ -22,9 +22,16 @@ class Questionnaire(models.Model):
 
 
 class MultipleChoiceQuestion(models.Model):
+
+    QUESTION_TYPES = [
+        ('t', 'text'),
+        ('o', 'options')
+    ]
+
     number = models.IntegerField()
     text = models.TextField(blank=True, null=True)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
+    type = models.CharField(max_length=1, choices=QUESTION_TYPES, default='o')
 
     class Meta:
         unique_together = [['number', 'questionnaire'], ['text', 'questionnaire']]
@@ -36,8 +43,17 @@ class MultipleChoiceQuestion(models.Model):
             return '%s %s' % (self.number, self.questionnaire.name)
 
     def get_response_options(self):
-        response_options = ResponseOption.objects.filter(question=self)
-        return response_options
+        if self.type == 'o':
+            response_options = ResponseOption.objects.filter(question=self)
+            return response_options
+        else:
+            # TODO: catch an error?
+            return []
+
+
+class TextQuestionResponse(models.Model):
+    question = models.ForeignKey(MultipleChoiceQuestion, on_delete=models.CASCADE)
+    response_text = models.TextField()
 
 
 class ResponseOption(models.Model):
@@ -66,6 +82,9 @@ class QuestionnaireResponse(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.questionnaire.name, self.user.username)
+
+    def get_response_number(self):
+        return QuestionnaireResponse.objects.filter(user=self.user).count()
 
 
 class PatientProfile(models.Model):
@@ -105,3 +124,11 @@ class QuestionnairePrescription(models.Model):
     @property
     def is_finished(self):
         return self.result is not None
+
+
+class DoctorPatientConnection(models.Model):
+    patient_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_user')
+    doctor_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_user')
+
+    class Meta:
+        unique_together = [['patient_user', 'doctor_user'], ]
